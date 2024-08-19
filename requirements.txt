@@ -1,0 +1,3 @@
+pysqslistener
+boto3
+requests
