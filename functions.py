@@ -144,21 +144,3 @@ def trigger_leg_lvl_summary(json_payload):
         print(f"Error invoking Lambda function: {e.response['Error']['Message']}")
 
 
-def trigger_match_length(fixtureid, tournament):
-    import boto3
-    import json
-    from botocore.config import Config
-
-    config = Config(retries={'max_attempts': 0})
-    lambda_client = boto3.client('lambda',
-                                 region_name='eu-west-1',
-                                 aws_access_key_id='AKIA467ST2DY3IRHUUWY',
-                                 aws_secret_access_key='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',
-                                 config=config,
-                                 )
-    lambda_payload = {"fixture_id": f"{fixtureid}", "tournament": tournament}
-    lambda_payload = json.dumps(lambda_payload)
-    lambda_client.invoke(FunctionName='sportradar_get_match_length',
-                         InvocationType='Event',
-                         Payload=lambda_payload,
-                         )

@@ -76,6 +76,8 @@ class MyListener(sqs_listener.SqsListener):
 
         if topic == 'Match Summary Success':
             fixture_id = json_str.get('fixture_id')
+            a_name = json_str.get('a_name')
+            b_name = json_str.get('b_name')
             if fixture_id not in scraping_dict:
                 scraping_dict[fixture_id] = scraping_dict_child
                 scraping_dict[fixture_id]['Match'] = 1
@@ -83,9 +85,17 @@ class MyListener(sqs_listener.SqsListener):
                 scraping_dict[fixture_id]['Match'] = 1
             if scraping_dict[fixture_id]['Legs'] == 1 and scraping_dict[fixture_id]['Match'] == 1:
                 telegram_bot_sendtext(f'{fixture_id}: Full Scrape Complete')
+                url = 'http://127.0.0.1:5000//trigger_related_dpl_price'
+                headers = {'Content-Type': 'application/json'}
+                data = {"a_name": a_name,
+                        "b_name": b_name}
+                response = requests.post(url, headers=headers, data=json.dumps(data))
+                print(response.status_code)
 
         if topic == 'Leg Summary Success':
             fixture_id = json_str.get('fixture_id')
+            a_name = json_str.get('a_name')
+            b_name = json_str.get('b_name')
             if fixture_id not in scraping_dict:
                 scraping_dict[fixture_id] = scraping_dict_child
                 scraping_dict[fixture_id]['Legs'] = 1
@@ -93,17 +103,13 @@ class MyListener(sqs_listener.SqsListener):
                 scraping_dict[fixture_id]['Legs'] = 1
             if scraping_dict[fixture_id]['Legs'] == 1 and scraping_dict[fixture_id]['Match'] == 1:
                 telegram_bot_sendtext(f'{fixture_id}: Full Scrape Complete')
+                url = 'http://127.0.0.1:5000//trigger_related_dpl_price'
+                headers = {'Content-Type': 'application/json'}
+                data = {"a_name": a_name,
+                        "b_name": b_name}
+                response = requests.post(url, headers=headers, data=json.dumps(data))
+                print(response.status_code)
 
-        if topic == 'Price Requested':
-            tournament = json_str.get('tournament')
-            fixture_id = json_str.get('fixture_id')
-            trigger_dpl_price(fixture_id, tournament)
-
-        if topic == 'Length Requested':
-            fixture_id = json_str.get('fixture_id')
-            tournament = json_str.get('tournament')
-            print(f'length: {fixture_id}, {tournament}')
-            trigger_match_length(fixture_id, tournament)
 
 scraping_dict = {}
 scraping_dict_child = {'Match': 0, 'Legs': 0}
