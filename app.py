@@ -3,7 +3,8 @@ import boto3
 import json
 import logging
 import requests
-from functions import trigger_scrape_match,trigger_match_lvl_summary, trigger_leg_lvl_summary, trigger_dpl_price, telegram_bot_sendtext
+from functions import trigger_scrape_match, trigger_match_lvl_summary, trigger_leg_lvl_summary, trigger_dpl_price, \
+    telegram_bot_sendtext
 
 access_key_id = 'AKIA467ST2DY3IRHUUWY'
 secret_access_key = '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'
@@ -20,6 +21,7 @@ sqs = boto3.client('sqs', region_name='eu-west-1',
                    aws_secret_access_key=secret_access_key)
 
 scrape_failed_dict = {}
+
 
 class MyListener(sqs_listener.SqsListener):
     def handle_message(self, body, attributes, message_attributes):
