@@ -11,6 +11,7 @@ secret_access_key = 'dChJGYE2L1TksjJI73RSB9Iire4P9FzQsgKPXNQx'
 # Configure logging
 logging.basicConfig(filename='betfair_stream.log', level=logging.INFO,
                     format='%(asctime)s:%(levelname)s:%(message)s')
+logging.info("Starting App")
 
 # Create SQS client
 sqs = boto3.client('sqs', region_name='eu-west-1',
