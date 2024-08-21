@@ -3,7 +3,7 @@ import boto3
 import json
 import logging
 import requests
-from functions import trigger_scrape_match,trigger_match_lvl_summary, trigger_leg_lvl_summary, trigger_dpl_price, trigger_match_length, telegram_bot_sendtext
+from functions import trigger_scrape_match,trigger_match_lvl_summary, trigger_leg_lvl_summary, trigger_dpl_price, telegram_bot_sendtext
 
 access_key_id = 'AKIA467ST2DY3IRHUUWY'
 secret_access_key = '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'
@@ -26,11 +26,11 @@ class MyListener(sqs_listener.SqsListener):
         if topic == 'New Event':
             fixture_id = json_str.get('fixture_id')
             openDate = json_str.get('openDate')
-            print(f'{fixture_id}: New Event')
             a_name = json_str.get('a_name')
             b_name = json_str.get('b_name')
             competition = json_str.get('competition')
             eventId = json_str.get('eventId')
+            logging.info(f"Received New Event {fixture_id}")
             a_id = json_str.get('a_id')
             b_id = json_str.get('b_id')
             trigger_dpl_price(fixture_id=fixture_id,
@@ -45,14 +45,14 @@ class MyListener(sqs_listener.SqsListener):
             logging.info(f"Sent match price request")
 
         if topic == 'New Market':
-            print('New Market')
+            logging.info(f"Received New Market")
 
         if topic == 'Market Finished':
-            print('Market Finished')
+            logging.info(f"Received Market Finished")
 
         if topic == 'Event Finished':
             fixture_id = json_str.get('fixture_id')
-            print(f'{fixture_id}: Event Finished')
+            logging.info(f"Received New Event {fixture_id}")
             a_name = json_str.get('a_name')
             b_name = json_str.get('b_name')
             trigger_scrape_match(a_name, b_name, fixture_id)
@@ -64,11 +64,11 @@ class MyListener(sqs_listener.SqsListener):
             else:
                 scrape_failed_dict[fixture_id] = 1
             selection_a = json_str.get('selection_a')
-            print(f'{fixture_id}: Scrape Failed')
+            logging.info(f"Received Scrape Failed {fixture_id}")
             trigger_scrape_match(selection_a, 'Unknown', fixture_id)
 
         if topic == 'Match Scraped':
-            print(f'Match Scraped')
+            logging.info(f"Received Match Scraped")
             trigger_match_lvl_summary(body)
             trigger_leg_lvl_summary(body)
             # match scraped
@@ -78,6 +78,7 @@ class MyListener(sqs_listener.SqsListener):
             fixture_id = json_str.get('fixture_id')
             a_name = json_str.get('a_name')
             b_name = json_str.get('b_name')
+            logging.info(f"Received Match Summary {fixture_id}")
             if fixture_id not in scraping_dict:
                 scraping_dict[fixture_id] = scraping_dict_child
                 scraping_dict[fixture_id]['Match'] = 1
@@ -90,12 +91,13 @@ class MyListener(sqs_listener.SqsListener):
                 data = {"a_name": a_name,
                         "b_name": b_name}
                 response = requests.post(url, headers=headers, data=json.dumps(data))
-                print(response.status_code)
+                logging.info(f"Sent trigger prices {fixture_id}")
 
         if topic == 'Leg Summary Success':
             fixture_id = json_str.get('fixture_id')
             a_name = json_str.get('a_name')
             b_name = json_str.get('b_name')
+            logging.info(f"Received Leg Summary {fixture_id}")
             if fixture_id not in scraping_dict:
                 scraping_dict[fixture_id] = scraping_dict_child
                 scraping_dict[fixture_id]['Legs'] = 1
@@ -108,7 +110,7 @@ class MyListener(sqs_listener.SqsListener):
                 data = {"a_name": a_name,
                         "b_name": b_name}
                 response = requests.post(url, headers=headers, data=json.dumps(data))
-                print(response.status_code)
+                logging.info(f"Sent trigger prices {fixture_id}")
 
 
 scraping_dict = {}
