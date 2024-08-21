@@ -21378,3 +21378,8 @@ NameError: name 'b_id' is not defined. Did you mean: 'a_id'?
 2024-08-20 21:12:02,330:INFO:1 messages received
 2024-08-20 21:12:02,398:INFO:1 messages received
 2024-08-20 21:12:02,465:INFO:1 messages received
+2024-08-21 21:19:06,285:INFO:Starting App
+2024-08-21 21:19:06,584:INFO:Listening to queue Pooper
+2024-08-21 21:20:06,724:INFO:1 messages received
+2024-08-21 21:20:06,725:INFO:Message Received
+2024-08-21 21:20:06,725:INFO:Received New Market
