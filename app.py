@@ -22,6 +22,7 @@ scrape_failed_dict = {}
 
 class MyListener(sqs_listener.SqsListener):
     def handle_message(self, body, attributes, message_attributes):
+        logging.info(f"Message Received")
         topic = body['Topic']
         json_str = body['Body']
         if topic == 'New Event':
