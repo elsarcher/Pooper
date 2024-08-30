@@ -10,7 +10,7 @@ access_key_id = 'AKIA467ST2DY3IRHUUWY'
 secret_access_key = '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'
 
 # Configure logging
-logging.basicConfig(filename='pooper.log', level=logging.INFO,
+logging.basicConfig(filename='betfair_stream.log', level=logging.INFO,
                     format='%(asctime)s:%(levelname)s:%(message)s')
 
 logging.info("Starting App")
