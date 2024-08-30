@@ -2,6 +2,10 @@ import requests
 import boto3
 from botocore.exceptions import ClientError
 import json
+import logging
+
+logging.basicConfig(filename='betfair_stream.log', level=logging.INFO,
+                    format='%(asctime)s:%(levelname)s:%(message)s')
 
 def telegram_bot_sendtext(text):
     bot_token = "5862237285:AAEgN1I94fgt8oT39LFNT__-sRfBR9liX0I"
@@ -91,7 +95,7 @@ def trigger_scrape_match(selection_a, selection_b, fixture_id):
 
         # Construct the payload
         lambda_payload = {"selection_a": selection_a, "selection_b": selection_b, "fixture_id": fixture_id}
-
+        logging.info(f"Error Invoking Lambda dpl price {fixture_id} / {lambda_payload}")
         # Serialize the JSON payload
         lambda_payload_str = json.dumps(lambda_payload)
 
@@ -101,8 +105,7 @@ def trigger_scrape_match(selection_a, selection_b, fixture_id):
                                         Payload=lambda_payload_str)
 
     except ClientError as e:
-        print(f"Error invoking Lambda function: {e.response['Error']['Message']}")
-
+        logging.info(f"Error Invoking Lambda dpl price {fixture_id}")
 
 def trigger_match_lvl_summary(json_payload):
     try:
