@@ -57,7 +57,7 @@ class MyListener(sqs_listener.SqsListener):
                         "a_id":a_id,
                         "b_id":b_id
                         }
-                logging.info(f"Sent match price request - {data}")
+                logging.info(f"Sent DPL price request - {data}")
             except:
                 logging.error(f"Error sending New Event price request")
 
