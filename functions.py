@@ -102,9 +102,10 @@ def trigger_scrape_match(selection_a, selection_b, fixture_id):
         response = lambda_client.invoke(FunctionName='lambda_scrape_match',
                                         InvocationType='Event',
                                         Payload=lambda_payload_str)
+        logging.info(f"Match scrape request sent {fixture_id}")
 
     except ClientError as e:
-        logging.info(f"Error Invoking Lambda scrape match {fixture_id}")
+        logging.error(f"Error Invoking Lambda scrape match {fixture_id}")
 
 def trigger_match_lvl_summary(json_payload):
     try:
