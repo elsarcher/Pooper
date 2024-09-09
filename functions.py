@@ -95,7 +95,6 @@ def trigger_scrape_match(selection_a, selection_b, fixture_id):
 
         # Construct the payload
         lambda_payload = {"selection_a": selection_a, "selection_b": selection_b, "fixture_id": fixture_id}
-        logging.info(f"Error Invoking Lambda dpl price {fixture_id} / {lambda_payload}")
         # Serialize the JSON payload
         lambda_payload_str = json.dumps(lambda_payload)
 
@@ -105,7 +104,7 @@ def trigger_scrape_match(selection_a, selection_b, fixture_id):
                                         Payload=lambda_payload_str)
 
     except ClientError as e:
-        logging.info(f"Error Invoking Lambda dpl price {fixture_id}")
+        logging.info(f"Error Invoking Lambda scrape match {fixture_id}")
 
 def trigger_match_lvl_summary(json_payload):
     try:
