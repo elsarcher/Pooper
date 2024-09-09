@@ -69,7 +69,7 @@ def trigger_dpl_price(fixture_id, openDate, eventId, competition, a_name, b_name
                                  aws_secret_access_key='dChJGYE2L1TksjJI73RSB9Iire4P9FzQsgKPXNQx',
                                  config=config,
                                  )
-    lambda_payload = {"fixtureid": fixture_id,
+    lambda_payload = {"fixture_id": fixture_id,
                       "openDate": openDate,
                       "eventId": eventId,
                       "competition": competition,
