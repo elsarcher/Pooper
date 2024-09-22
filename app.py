@@ -107,7 +107,7 @@ class MyListener(sqs_listener.SqsListener):
                     scraping_dict[fixture_id]['Match'] = 1
                 if scraping_dict[fixture_id]['Legs'] == 1 and scraping_dict[fixture_id]['Match'] == 1:
                     telegram_bot_sendtext(f'{fixture_id}: Full Scrape Complete')
-                    url = 'http://ec2-34-240-197-141.eu-west-1.compute.amazonaws.com:5001/trigger_related_dpl_price'
+                    url = 'http://ec2-63-35-251-227.eu-west-1.compute.amazonaws.com:5001/trigger_related_dpl_price'
                     headers = {'Content-Type': 'application/json'}
                     data = {"a_name": a_name,
                             "b_name": b_name}
@@ -129,7 +129,7 @@ class MyListener(sqs_listener.SqsListener):
                     scraping_dict[fixture_id]['Legs'] = 1
                 if scraping_dict[fixture_id]['Legs'] == 1 and scraping_dict[fixture_id]['Match'] == 1:
                     telegram_bot_sendtext(f'{fixture_id}: Full Scrape Complete')
-                    url = 'http://ec2-34-240-197-141.eu-west-1.compute.amazonaws.com:5001/trigger_related_dpl_price'
+                    url = 'http://ec2-63-35-251-227.eu-west-1.compute.amazonaws.com:5001/trigger_related_dpl_price'
                     headers = {'Content-Type': 'application/json'}
                     data = {"a_name": a_name,
                             "b_name": b_name}
