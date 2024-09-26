@@ -14,33 +14,35 @@ secret_access_key = 'dChJGYE2L1TksjJI73RSB9Iire4P9FzQsgKPXNQx'
 logging.basicConfig(filename='betfair_stream.log', level=logging.INFO,
                     format='%(asctime)s:%(levelname)s:%(message)s')
 
-logging.info("Starting Pooper")
+logging.info("Starting App")
 
 # Create SQS client
 sqs = boto3.client('sqs', region_name='eu-west-1',
                    aws_access_key_id=access_key_id,
                    aws_secret_access_key=secret_access_key)
 
-# Dictionary for tracking failed scrapes
 scrape_failed_dict = {}
 
-class MyListener(sqs_listener.SqsListener):
+# Override the default SqsListener to add raw message logging and custom message handling
+class CustomSqsListener(sqs_listener.SqsListener):
     def handle_message(self, body, attributes, message_attributes):
         try:
             logging.info(f"Raw Message Received: {body}")
             
-            # Deserialize the body into a Python dictionary
-            message_body = json.loads(body['Body'])
-            logging.info(f"Parsed Message Body: {message_body}")
-            
-            # Extract topic from message body
+            # Check if the body contains JSON data
+            try:
+                message_body = json.loads(body['Body'])
+                logging.info(f"Parsed Message Body: {message_body}")
+            except json.JSONDecodeError as e:
+                logging.error(f"Error parsing JSON from message body: {e}")
+                return  # Skip further processing
+
             topic = message_body.get('Topic', None)
-            
             if not topic:
                 logging.error("Message does not contain a topic.")
                 return  # Skip processing if there's no topic
 
-            # Handling 'New Event' topic
+            # Handle different topics
             if topic == 'New Event':
                 try:
                     fixture_id = message_body.get('fixture_id')
@@ -52,7 +54,7 @@ class MyListener(sqs_listener.SqsListener):
                     logging.info(f"Received New Event {fixture_id}")
                     a_id = message_body.get('a_id')
                     b_id = message_body.get('b_id')
-                    
+
                     # Trigger DPL price function
                     trigger_dpl_price(fixture_id=fixture_id,
                                       openDate=openDate,
@@ -76,7 +78,6 @@ class MyListener(sqs_listener.SqsListener):
                 except Exception as e:
                     logging.error(f"Error sending New Event price request: {e}")
 
-            # Handling 'Event Finished' topic
             elif topic == 'Event Finished':
                 try:
                     fixture_id = message_body.get('fixture_id')
@@ -87,7 +88,6 @@ class MyListener(sqs_listener.SqsListener):
                 except Exception as e:
                     logging.error(f"Error sending Event Finished scrape: {e}")
 
-            # Handling 'Scrape Failed' topic
             elif topic == 'Scrape Failed':
                 try:
                     fixture_id = message_body.get('fixture_id')
@@ -101,7 +101,6 @@ class MyListener(sqs_listener.SqsListener):
                 except Exception as e:
                     logging.error(f"Error sending Scrape Failed rescrape: {e}")
 
-            # Handling 'Match Scraped' topic
             elif topic == 'Match Scraped':
                 try:
                     logging.info(f"Received Match Scraped")
@@ -110,7 +109,6 @@ class MyListener(sqs_listener.SqsListener):
                 except Exception as e:
                     logging.error(f"Error sending Match Scraped trigger summary: {e}")
 
-            # Handling 'Match Summary Success' topic
             elif topic == 'Match Summary Success':
                 try:
                     fixture_id = message_body.get('fixture_id')
@@ -122,7 +120,7 @@ class MyListener(sqs_listener.SqsListener):
                         scraping_dict[fixture_id]['Match'] = 1
                     else:
                         scraping_dict[fixture_id]['Match'] = 1
-                    
+
                     if scraping_dict[fixture_id]['Legs'] == 1 and scraping_dict[fixture_id]['Match'] == 1:
                         telegram_bot_sendtext(f'{fixture_id}: Full Scrape Complete')
                         url = 'http://ec2-52-50-252-157.eu-west-1.compute.amazonaws.com:5001/trigger_related_dpl_price'
@@ -133,7 +131,6 @@ class MyListener(sqs_listener.SqsListener):
                 except Exception as e:
                     logging.error(f"Error in Match Summary: {e}")
 
-            # Handling 'Leg Summary Success' topic
             elif topic == 'Leg Summary Success':
                 try:
                     fixture_id = message_body.get('fixture_id')
@@ -145,7 +142,7 @@ class MyListener(sqs_listener.SqsListener):
                         scraping_dict[fixture_id]['Legs'] = 1
                     else:
                         scraping_dict[fixture_id]['Legs'] = 1
-                    
+
                     if scraping_dict[fixture_id]['Legs'] == 1 and scraping_dict[fixture_id]['Match'] == 1:
                         telegram_bot_sendtext(f'{fixture_id}: Full Scrape Complete')
                         url = 'http://ec2-52-50-252-157.eu-west-1.compute.amazonaws.com:5001/trigger_related_dpl_price'
@@ -166,9 +163,9 @@ scraping_dict = {}
 scraping_dict_child = {'Match': 0, 'Legs': 0}
 
 # Create and start the SQS listener
-listener = MyListener('Pooper',
-                      region_name='eu-west-1',
-                      aws_access_key=access_key_id,
-                      aws_secret_key=secret_access_key)
+listener = CustomSqsListener('Pooper',
+                             region_name='eu-west-1',
+                             aws_access_key=access_key_id,
+                             aws_secret_key=secret_access_key)
 
 listener.listen()
