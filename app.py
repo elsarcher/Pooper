@@ -42,43 +42,7 @@ class CustomSqsListener(sqs_listener.SqsListener):
                 logging.error("Message does not contain a topic.")
                 return  # Skip processing if there's no topic
 
-            # Handle different topics
-            if topic == 'New Event':
-                try:
-                    fixture_id = message_body.get('fixture_id')
-                    openDate = message_body.get('openDate')
-                    a_name = message_body.get('a_name')
-                    b_name = message_body.get('b_name')
-                    competition = message_body.get('competition')
-                    eventId = message_body.get('eventId')
-                    logging.info(f"Received New Event {fixture_id}")
-                    a_id = message_body.get('a_id')
-                    b_id = message_body.get('b_id')
-
-                    # Trigger DPL price function
-                    trigger_dpl_price(fixture_id=fixture_id,
-                                      openDate=openDate,
-                                      eventId=eventId,
-                                      competition=competition,
-                                      a_name=a_name,
-                                      b_name=b_name,
-                                      a_id=a_id,
-                                      b_id=b_id)
-                    data = {
-                        "fixture_id": fixture_id,
-                        "openDate": openDate,
-                        "eventId": eventId,
-                        "competition": competition,
-                        "a_name": a_name,
-                        "b_name": b_name,
-                        "a_id": a_id,
-                        "b_id": b_id
-                    }
-                    logging.info(f"Sent DPL price request - {json.dumps(data)}")
-                except Exception as e:
-                    logging.error(f"Error sending New Event price request: {e}")
-
-            elif topic == 'Event Finished':
+            if topic == 'Event Finished':
                 try:
                     fixture_id = message_body.get('fixture_id')
                     logging.info(f"Received Event Finished {fixture_id}")
