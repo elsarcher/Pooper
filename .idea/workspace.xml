@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6f921892-cc58-42c8-bb01-ec0d688c2587" name="Changes" comment="update trigger dpl price">
+    <list default="true" id="6f921892-cc58-42c8-bb01-ec0d688c2587" name="Changes" comment="remove new event handling">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/functions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +21,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -226,14 +226,84 @@
       <option name="project" value="LOCAL" />
       <updated>1725891575487</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="log the full message">
+      <option name="closed" value="true" />
+      <created>1727017698393</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1727017698393</updated>
+    </task>
+    <task id="LOCAL-00018" summary="switch to new veralum">
+      <option name="closed" value="true" />
+      <created>1727019172816</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1727019172816</updated>
+    </task>
+    <task id="LOCAL-00019" summary="switch to new veralum">
+      <option name="closed" value="true" />
+      <created>1727086810989</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1727086810989</updated>
+    </task>
+    <task id="LOCAL-00020" summary="switch to new veralum">
+      <option name="closed" value="true" />
+      <created>1727090370486</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1727090370486</updated>
+    </task>
+    <task id="LOCAL-00021" summary="switch to new veralum">
+      <option name="closed" value="true" />
+      <created>1727241597414</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1727241597414</updated>
+    </task>
+    <task id="LOCAL-00022" summary="remove new event handling">
+      <option name="closed" value="true" />
+      <created>1727380963444</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1727380963444</updated>
+    </task>
+    <task id="LOCAL-00023" summary="remove new event handling">
+      <option name="closed" value="true" />
+      <created>1727381062319</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1727381062319</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update pooper" />
     <MESSAGE value="update urls" />
     <MESSAGE value="update logging" />
     <MESSAGE value="update trigger dpl price" />
-    <option name="LAST_COMMIT_MESSAGE" value="update trigger dpl price" />
+    <MESSAGE value="log the full message" />
+    <MESSAGE value="switch to new veralum" />
+    <MESSAGE value="remove new event handling" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove new event handling" />
   </component>
 </project>

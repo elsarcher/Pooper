@@ -3,8 +3,7 @@ import boto3
 import json
 import logging
 import requests
-from functions import trigger_scrape_match, trigger_match_lvl_summary, trigger_leg_lvl_summary, trigger_dpl_price, \
-    telegram_bot_sendtext
+from functions import trigger_scrape_match, trigger_match_lvl_summary, trigger_leg_lvl_summary, telegram_bot_sendtext
 
 # AWS credentials
 access_key_id = 'AKIA467ST2DY3IRHUUWY'
