@@ -41,6 +41,20 @@ class CustomSqsListener(sqs_listener.SqsListener):
 
             logging.info(f"Parsed Message Body: {message_body}")
 
+            # Handle the case where message_body is a list
+            if isinstance(message_body, list):
+                for item in message_body:
+                    self.process_message(item)
+            else:
+                # Single message object
+                self.process_message(message_body)
+
+        except Exception as e:
+            logging.error(f"Unexpected error handling message: {e}")
+
+    def process_message(self, message_body):
+        """Process individual message body whether it's from a list or a single object"""
+        try:
             topic = message_body.get('Topic', None)
             if not topic:
                 logging.error("Message does not contain a topic.")
@@ -122,7 +136,7 @@ class CustomSqsListener(sqs_listener.SqsListener):
                     logging.error(f"Error in Leg Summary: {e}")
 
         except Exception as e:
-            logging.error(f"Unexpected error handling message: {e}")
+            logging.error(f"Unexpected error processing message: {e}")
 
 
 # Initialize tracking dicts

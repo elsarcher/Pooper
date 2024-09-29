@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6f921892-cc58-42c8-bb01-ec0d688c2587" name="Changes" comment="remove new event handling">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="6f921892-cc58-42c8-bb01-ec0d688c2587" name="Changes" comment="message handling" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -290,7 +288,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727428855321</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="message handling">
+      <option name="closed" value="true" />
+      <created>1727599117392</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1727599117392</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -312,6 +318,7 @@
     <MESSAGE value="log the full message" />
     <MESSAGE value="switch to new veralum" />
     <MESSAGE value="remove new event handling" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove new event handling" />
+    <MESSAGE value="message handling" />
+    <option name="LAST_COMMIT_MESSAGE" value="message handling" />
   </component>
 </project>
