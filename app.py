@@ -25,33 +25,6 @@ scrape_failed_dict = {}
 
 # Override the default SqsListener to add raw message logging and custom message handling
 class CustomSqsListener(sqs_listener.SqsListener):
-    def handle_message(self, body, attributes, message_attributes):
-        try:
-            logging.info(f"Raw Message Received: {body}")
-
-            # Check if the body['Body'] is already a dictionary or list
-            if isinstance(body, dict) and 'Body' in body:
-                message_body = body['Body']
-            else:
-                try:
-                    message_body = json.loads(body)
-                except json.JSONDecodeError as e:
-                    logging.error(f"Error parsing JSON from message body: {e}")
-                    return  # Skip further processing
-
-            logging.info(f"Parsed Message Body: {message_body}")
-
-            # Handle the case where message_body is a list
-            if isinstance(message_body, list):
-                for item in message_body:
-                    self.process_message(item)
-            else:
-                # Single message object
-                self.process_message(message_body)
-
-        except Exception as e:
-            logging.error(f"Unexpected error handling message: {e}")
-
     def process_message(self, message_body):
         """Process individual message body whether it's from a list or a single object"""
         try:
