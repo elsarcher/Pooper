@@ -27,9 +27,9 @@ scrape_failed_dict = {}
 class CustomSqsListener(sqs_listener.SqsListener):
     def handle_message(self, body, attributes, messages_attributes):
         """Process individual message body whether it's from a list or a single object"""
-        logging.info(f'Received message body: {body}')
         try:
             topic = body.get('Topic', None)
+            body = body.get('Body')
             if not topic:
                 logging.error("Message does not contain a topic.")
                 return  # Skip processing if there's no topic
