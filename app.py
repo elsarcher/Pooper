@@ -22,19 +22,24 @@ sqs = boto3.client('sqs', region_name='eu-west-1',
 
 scrape_failed_dict = {}
 
+
 # Override the default SqsListener to add raw message logging and custom message handling
 class CustomSqsListener(sqs_listener.SqsListener):
     def handle_message(self, body, attributes, message_attributes):
         try:
             logging.info(f"Raw Message Received: {body}")
-            
-            # Check if the body contains JSON data
-            try:
-                message_body = json.loads(body['Body'])
-                logging.info(f"Parsed Message Body: {message_body}")
-            except json.JSONDecodeError as e:
-                logging.error(f"Error parsing JSON from message body: {e}")
-                return  # Skip further processing
+
+            # Check if the body['Body'] is already a dictionary or list
+            if isinstance(body, dict) and 'Body' in body:
+                message_body = body['Body']
+            else:
+                try:
+                    message_body = json.loads(body)
+                except json.JSONDecodeError as e:
+                    logging.error(f"Error parsing JSON from message body: {e}")
+                    return  # Skip further processing
+
+            logging.info(f"Parsed Message Body: {message_body}")
 
             topic = message_body.get('Topic', None)
             if not topic:
@@ -116,10 +121,9 @@ class CustomSqsListener(sqs_listener.SqsListener):
                 except Exception as e:
                     logging.error(f"Error in Leg Summary: {e}")
 
-        except json.JSONDecodeError as e:
-            logging.error(f"Error parsing message body: {e}")
         except Exception as e:
             logging.error(f"Unexpected error handling message: {e}")
+
 
 # Initialize tracking dicts
 scraping_dict = {}
@@ -128,7 +132,7 @@ scraping_dict_child = {'Match': 0, 'Legs': 0}
 # Create and start the SQS listener
 listener = CustomSqsListener('Pooper',
                              region_name='eu-west-1',
-                             aws_access_key=access_key_id,
+                             aws_access_key_id=access_key_id,
                              aws_secret_key=secret_access_key)
 
 listener.listen()
