@@ -82,7 +82,19 @@ class CustomSqsListener(sqs_listener.SqsListener):
                         url = 'http://ec2-34-245-204-86.eu-west-1.compute.amazonaws.com:5001/trigger_related_dpl_price'
                         headers = {'Content-Type': 'application/json'}
                         data = {"a_name": a_name, "b_name": b_name}
-                        response = requests.post(url, headers=headers, data=json.dumps(data))
+
+                        try:
+                            # Add a timeout of 5 seconds (you can adjust the value)
+                            with requests.post(url, headers=headers, data=json.dumps(data), timeout=5) as response:
+                                response.raise_for_status()
+                                logging.info(f"{response.status_code} Sent trigger related dpl price {fixture_id} to Veralum - {data}")
+                        except requests.exceptions.Timeout:
+                            # Handle timeout
+                            logging.error(f'{fixture_id} - related dpl price Request timed out - {data}')
+                        except requests.exceptions.RequestException as e:
+                            # Handle other potential exceptions
+                            logging.error(f'{fixture_id} - related dpl price request error - {e}')
+
                         logging.info(f"Sent trigger prices {fixture_id}")
                 except Exception as e:
                     logging.error(f"Error in Match Summary: {e}")
@@ -104,7 +116,20 @@ class CustomSqsListener(sqs_listener.SqsListener):
                         url = 'http://ec2-34-245-204-86.eu-west-1.compute.amazonaws.com:5001/trigger_related_dpl_price'
                         headers = {'Content-Type': 'application/json'}
                         data = {"a_name": a_name, "b_name": b_name}
-                        response = requests.post(url, headers=headers, data=json.dumps(data))
+
+                        try:
+                            # Add a timeout of 5 seconds (you can adjust the value)
+                            with requests.post(url, headers=headers, data=json.dumps(data), timeout=5) as response:
+                                response.raise_for_status()
+                                logging.info(
+                                    f"{response.status_code} Sent trigger related dpl price {fixture_id} to Veralum - {data}")
+                        except requests.exceptions.Timeout:
+                            # Handle timeout
+                            logging.error(f'{fixture_id} - related dpl price Request timed out - {data}')
+                        except requests.exceptions.RequestException as e:
+                            # Handle other potential exceptions
+                            logging.error(f'{fixture_id} - related dpl price request error - {e}')
+
                         logging.info(f"Sent trigger prices {fixture_id}")
                 except Exception as e:
                     logging.error(f"Error in Leg Summary: {e}")
