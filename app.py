@@ -67,7 +67,7 @@ class CustomSqsListener(sqs_listener.SqsListener):
 
             elif topic == 'Match Summary Success':
                 try:
-                    fixture_id = body.get('fixture_id')
+                    fixture_id = event_body.get('fixture_id')
                     a_name = event_body.get('a_name')
                     b_name = event_body.get('b_name')
                     logging.info(f"Received Match Summary {fixture_id}")
