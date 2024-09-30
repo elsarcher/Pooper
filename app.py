@@ -29,29 +29,29 @@ class CustomSqsListener(sqs_listener.SqsListener):
         """Process individual message body whether it's from a list or a single object"""
         try:
             topic = body.get('Topic', None)
-            body = body.get('Body')
+            event_body = body.get('Body')
             if not topic:
                 logging.error("Message does not contain a topic.")
                 return  # Skip processing if there's no topic
 
             if topic == 'Event Finished':
                 try:
-                    fixture_id = body.get('fixture_id')
+                    fixture_id = event_body.get('fixture_id')
                     logging.info(f"Received Event Finished {fixture_id}")
-                    a_name = body.get('a_name')
-                    b_name = body.get('b_name')
+                    a_name = event_body.get('a_name')
+                    b_name = event_body.get('b_name')
                     trigger_scrape_match(a_name, b_name, fixture_id)
                 except Exception as e:
                     logging.error(f"Error sending Event Finished scrape: {e}")
 
             elif topic == 'Scrape Failed':
                 try:
-                    fixture_id = body.get('fixture_id')
+                    fixture_id = event_body.get('fixture_id')
                     if fixture_id in scrape_failed_dict:
                         scrape_failed_dict[fixture_id] += 1
                     else:
                         scrape_failed_dict[fixture_id] = 1
-                    selection_a = body.get('selection_a')
+                    selection_a = event_body.get('selection_a')
                     logging.info(f"Received Scrape Failed {fixture_id}")
                     trigger_scrape_match(selection_a, 'Unknown', fixture_id)
                 except Exception as e:
@@ -68,8 +68,8 @@ class CustomSqsListener(sqs_listener.SqsListener):
             elif topic == 'Match Summary Success':
                 try:
                     fixture_id = body.get('fixture_id')
-                    a_name = body.get('a_name')
-                    b_name = body.get('b_name')
+                    a_name = event_body.get('a_name')
+                    b_name = event_body.get('b_name')
                     logging.info(f"Received Match Summary {fixture_id}")
                     if fixture_id not in scraping_dict:
                         scraping_dict[fixture_id] = scraping_dict_child.copy()
@@ -89,9 +89,9 @@ class CustomSqsListener(sqs_listener.SqsListener):
 
             elif topic == 'Leg Summary Success':
                 try:
-                    fixture_id = body.get('fixture_id')
-                    a_name = body.get('a_name')
-                    b_name = body.get('b_name')
+                    fixture_id = event_body.get('fixture_id')
+                    a_name = event_body.get('a_name')
+                    b_name = event_body.get('b_name')
                     logging.info(f"Received Leg Summary {fixture_id}")
                     if fixture_id not in scraping_dict:
                         scraping_dict[fixture_id] = scraping_dict_child.copy()

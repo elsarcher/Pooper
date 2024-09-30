@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6f921892-cc58-42c8-bb01-ec0d688c2587" name="Changes" comment="logging">
+    <list default="true" id="6f921892-cc58-42c8-bb01-ec0d688c2587" name="Changes" comment="update endpoints">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -343,7 +343,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727634148650</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="update endpoints">
+      <option name="closed" value="true" />
+      <created>1727682228065</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1727682228065</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -368,6 +376,7 @@
     <MESSAGE value="message handling" />
     <MESSAGE value="body" />
     <MESSAGE value="logging" />
-    <option name="LAST_COMMIT_MESSAGE" value="logging" />
+    <MESSAGE value="update endpoints" />
+    <option name="LAST_COMMIT_MESSAGE" value="update endpoints" />
   </component>
 </project>
